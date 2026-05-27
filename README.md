@@ -1,6 +1,8 @@
-# Code for Paper Reproduction
+# GLC: Guided Local Coordination for Large-Scale Road Networks
 
-This repository contains code to reproduce the experiments in the accompanying paper. No author or institutional information is included for double-blind review.
+This repository contains the source code for the paper:
+
+> Zhenhui Jessie Li. 2026. **Local Rules, Global Efficiency: Emergent Coordination on Large-Scale Road Networks.** In *Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2* (KDD '26), August 09–13, 2026, Jeju Island, Republic of Korea. ACM, New York, NY, USA. https://doi.org/10.1145/3770855.3818071
 
 ## Installation
 
