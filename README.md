@@ -4,6 +4,22 @@ This repository contains the source code for the paper:
 
 > Zhenhui Jessie Li. 2026. **Local Rules, Global Efficiency: Emergent Coordination on Large-Scale Road Networks.** In *Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2* (KDD '26), August 09–13, 2026, Jeju Island, Republic of Korea. ACM, New York, NY, USA. https://doi.org/10.1145/3770855.3818071
 
+**[Project Page](https://jessielzh.github.io/GLC-road-coordination/)** &nbsp;|&nbsp; **[Paper (ACM DL)](https://doi.org/10.1145/3770855.3818071)**
+
+---
+
+## Emergent Circulation at a Four-Way Intersection
+
+| (a) Inbound approach | (b) At the intersection | (c) Outbound after turning |
+|:---:|:---:|:---:|
+| ![inbound](media/fourway_inbound.png) | ![at intersection](media/fourway_at_intersection.png) | ![outbound](media/fourway_outbound.png) |
+
+Illustrative snapshots of emergent circulation under PIBT-style conflict resolution. Red agents are left-turn vehicles. Rather than executing direct left turns that repeatedly cross opposing flows, left-turn agents implicitly "merge" into a one-way ring inside the intersection and exit when aligned with their desired outbound lane, resembling a roundabout.
+
+<video src="media/emergent-pattern.mov" controls width="100%"></video>
+
+---
+
 ## Installation
 
 ```bash

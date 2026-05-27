@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GLC: Local Rules, Global Efficiency</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Georgia, serif;
+      background: #fff;
+      color: #222;
+      line-height: 1.7;
+    }
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+    h1 {
+      font-size: 1.75rem;
+      font-weight: bold;
+      line-height: 1.3;
+      margin-bottom: 12px;
+    }
+    .authors {
+      font-size: 1.05rem;
+      margin-bottom: 4px;
+    }
+    .affil {
+      font-size: 0.92rem;
+      color: #555;
+      margin-bottom: 20px;
+    }
+    .venue {
+      display: inline-block;
+      background: #f4f4f4;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 4px 12px;
+      font-size: 0.88rem;
+      margin-bottom: 28px;
+    }
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 40px;
+    }
+    .links a {
+      display: inline-block;
+      padding: 7px 18px;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      text-decoration: none;
+      font-family: sans-serif;
+    }
+    .btn-paper { background: #333; color: #fff; }
+    .btn-code  { background: #24292e; color: #fff; }
+    .btn-paper:hover { background: #000; }
+    .btn-code:hover  { background: #000; }
+    hr { border: none; border-top: 1px solid #e0e0e0; margin: 36px 0; }
+    h2 {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 14px;
+      font-family: sans-serif;
+    }
+    p { margin-bottom: 1em; }
+    .video-wrap {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    .video-wrap video {
+      width: 100%;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+    }
+    .fig-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .fig-row figure {
+      flex: 1 1 200px;
+      text-align: center;
+    }
+    .fig-row img {
+      width: 100%;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+    }
+    .fig-row figcaption {
+      font-size: 0.82rem;
+      color: #555;
+      margin-top: 5px;
+      font-family: sans-serif;
+    }
+    .fig-caption {
+      font-size: 0.88rem;
+      color: #444;
+      font-family: sans-serif;
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+    .citation {
+      background: #f8f8f8;
+      border-left: 3px solid #ccc;
+      padding: 14px 18px;
+      font-family: monospace;
+      font-size: 0.82rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+      border-radius: 0 4px 4px 0;
+    }
+    footer {
+      margin-top: 48px;
+      font-size: 0.8rem;
+      color: #999;
+      font-family: sans-serif;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <h1>Local Rules, Global Efficiency: Emergent Coordination on Large-Scale Road Networks</h1>
+  <div class="authors"><strong>Zhenhui Jessie Li</strong></div>
+  <div class="affil">Hong Kong Polytechnic University &nbsp;·&nbsp; Hong Kong, China</div>
+  <div class="venue">KDD 2026 &nbsp;·&nbsp; August 9–13, 2026, Jeju Island, Republic of Korea</div>
+
+  <div class="links">
+    <a class="btn-paper" href="https://doi.org/10.1145/3770855.3818071" target="_blank">[Paper] ACM DL</a>
+    <a class="btn-code"  href="https://github.com/jessielzh/GLC-road-coordination" target="_blank">[Code] GitHub</a>
+  </div>
+
+  <hr />
+
+  <h2>Abstract</h2>
+  <p>
+    Urban transportation systems face a fundamental efficiency paradox: individually optimal routing
+    decisions can create system-wide congestion that increases travel time for all participants.
+    Autonomous vehicles (AVs) offer a transformative opportunity—coordination algorithms could
+    dynamically adapt vehicle behavior to traffic conditions, forming "virtual roundabouts" during
+    congestion and allowing direct routing when roads are clear.
+  </p>
+  <p>
+    We propose <strong>Guided Local Coordination (GLC)</strong>, a decentralized framework combining
+    global shortest-path guidance with priority-based local conflict resolution. GLC precomputes
+    optimal distance labels for the entire network, then uses priority inheritance and backtracking
+    to resolve real-time collisions without replanning. GLC scales to city-scale networks with 4K
+    nodes and 10K agents. As a key qualitative result, GLC produces <em>emergent circulation
+    patterns</em>: left-turn traffic spontaneously forms roundabout-like flows during high density
+    while straight-through traffic proceeds unimpeded—adaptive coordination arising purely from
+    local rules without explicit programming.
+  </p>
+
+  <hr />
+
+  <h2>Demo Video</h2>
+  <div class="video-wrap">
+    <video controls loop muted playsinline>
+      <source src="https://raw.githubusercontent.com/jessielzh/GLC-road-coordination/main/media/emergent-pattern.mov" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <hr />
+
+  <h2>Emergent Circulation at a Four-Way Intersection</h2>
+
+  <div class="fig-row">
+    <figure>
+      <img src="https://raw.githubusercontent.com/jessielzh/GLC-road-coordination/main/media/fourway_inbound.png" alt="Inbound approach" />
+      <figcaption>(a) Inbound approach.</figcaption>
+    </figure>
+    <figure>
+      <img src="https://raw.githubusercontent.com/jessielzh/GLC-road-coordination/main/media/fourway_at_intersection.png" alt="At the intersection" />
+      <figcaption>(b) At the intersection.</figcaption>
+    </figure>
+    <figure>
+      <img src="https://raw.githubusercontent.com/jessielzh/GLC-road-coordination/main/media/fourway_outbound.png" alt="Outbound after turning" />
+      <figcaption>(c) Outbound after turning.</figcaption>
+    </figure>
+  </div>
+  <p class="fig-caption">
+    Illustrative snapshots of emergent circulation in the four-way intersection under
+    PIBT-style conflict resolution. Red agents are left-turn vehicles. Rather than executing
+    direct left turns that repeatedly cross opposing flows, left-turn agents implicitly
+    "merge" into a one-way ring inside the intersection and exit when aligned with their
+    desired outbound lane, resembling a roundabout.
+  </p>
+
+  <hr />
+
+  <h2>Citation</h2>
+  <div class="citation">Zhenhui Jessie Li. 2026. Local Rules, Global Efficiency: Emergent Coordination on
+Large-Scale Road Networks. In Proceedings of the 32nd ACM SIGKDD Conference on
+Knowledge Discovery and Data Mining V.2 (KDD '26), August 09–13, 2026, Jeju Island,
+Republic of Korea. ACM, New York, NY, USA.
+https://doi.org/10.1145/3770855.3818071</div>
+
+  <footer>
+    KDD '26 &nbsp;·&nbsp; Zhenhui Jessie Li &nbsp;·&nbsp;
+    <a href="https://github.com/jessielzh/GLC-road-coordination" style="color:#999;">GitHub</a>
+  </footer>
+
+</div>
+</body>
+</html>
