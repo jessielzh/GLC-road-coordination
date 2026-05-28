@@ -187,7 +187,7 @@
   <h2>Demo Video</h2>
   <div class="video-wrap">
     <video controls loop muted playsinline>
-      <source src="media/emergent-pattern.mov" type="video/mp4" />
+      <source src="media/emergent-pattern.mov?v=2" type="video/mp4" />
       Your browser does not support the video tag.
     </video>
   </div>
@@ -198,15 +198,15 @@
 
   <div class="fig-row">
     <figure>
-      <img src="media/fourway_inbound.png" alt="Inbound approach" />
+      <img src="media/fourway_inbound.png?v=2" alt="Inbound approach" />
       <figcaption>(a) Inbound approach.</figcaption>
     </figure>
     <figure>
-      <img src="media/fourway_at_intersection.png" alt="At the intersection" />
+      <img src="media/fourway_at_intersection.png?v=2" alt="At the intersection" />
       <figcaption>(b) At the intersection.</figcaption>
     </figure>
     <figure>
-      <img src="media/fourway_outbound.png" alt="Outbound after turning" />
+      <img src="media/fourway_outbound.png?v=2" alt="Outbound after turning" />
       <figcaption>(c) Outbound after turning.</figcaption>
     </figure>
   </div>
@@ -220,60 +220,14 @@
 
   <hr />
 
-  <h2>Experimental Results</h2>
-
-  <p><strong>Table 1 — Four-way 2-in-1-out intersection.</strong> Total delay, 24 agents, 30% left / 35% straight / 35% right (mean over 3 seeds).</p>
+  <h2>City-scale Manhattan — 10,000 Agents</h2>
+  <p class="table-note">Total delay and runtime on the Manhattan road network (10,000 agents, IDEAL / SP / PIBT / GLC). Runtimes vary by machine; overhead percentages are machine-independent.</p>
   <table>
-    <tr><th>Method</th><th>Seed 85</th><th>Seed 196</th><th>Seed 410</th><th>Mean</th><th>Overhead</th></tr>
-    <tr><td>IDEAL</td><td>1,428</td><td>1,428</td><td>1,412</td><td>1,423</td><td>—</td></tr>
-    <tr><td>SP</td><td>1,897</td><td>1,891</td><td>1,867</td><td>1,885</td><td>+32%</td></tr>
-    <tr><td>Circular</td><td>1,713</td><td>1,712</td><td>1,746</td><td>1,724</td><td>+21%</td></tr>
-    <tr><td>PIBT</td><td>1,458</td><td>1,464</td><td>1,450</td><td>1,457</td><td>+2%</td></tr>
-    <tr><td>G-PIBT</td><td>1,477</td><td>1,476</td><td>1,468</td><td>1,474</td><td>+4%</td></tr>
-    <tr><td><strong>GLC</strong></td><td><strong>1,466</strong></td><td><strong>1,484</strong></td><td><strong>1,476</strong></td><td><strong>1,475</strong></td><td><strong>+4%</strong></td></tr>
-  </table>
-
-  <p><strong>Table 2 — 3×3 small road network.</strong> Total delay vs number of agents (seed=42).</p>
-  <table>
-    <tr><th>Agents</th><th>IDEAL</th><th>SP</th><th>PIBT</th><th>G-PIBT</th><th>GLC</th></tr>
-    <tr><td>8</td><td>248</td><td>257 (+3%)</td><td>248 (+0%)</td><td>248 (+0%)</td><td>248 (+0%)</td></tr>
-    <tr><td>16</td><td>511</td><td>530 (+4%)</td><td>514 (+1%)</td><td>515 (+1%)</td><td>514 (+0%)</td></tr>
-    <tr><td>24</td><td>795</td><td>825 (+4%)</td><td>798 (+0%)</td><td>802 (+1%)</td><td>800 (+1%)</td></tr>
-    <tr><td>32</td><td>1,055</td><td>1,096 (+4%)</td><td>1,061 (+1%)</td><td>1,072 (+2%)</td><td>1,063 (+1%)</td></tr>
-    <tr><td>40</td><td>1,297</td><td>1,352 (+4%)</td><td>1,309 (+1%)</td><td>1,328 (+2%)</td><td>1,311 (+1%)</td></tr>
-    <tr><td>60</td><td>1,977</td><td>2,080 (+5%)</td><td>2,019 (+2%)</td><td>2,042 (+3%)</td><td>2,111 (+7%)</td></tr>
-  </table>
-
-  <p><strong>Table 3 — City-scale Manhattan.</strong> Total delay and runtime on the Manhattan road network.</p>
-  <p class="table-note">Runtimes vary by machine. Delay overhead percentages are machine-independent.</p>
-
-  <p style="font-family:sans-serif;font-size:0.88rem;margin-bottom:6px;"><em>100 agents</em> (IDEAL, SP, TAP, PIBT, G-PIBT, GLC)</p>
-  <table>
-    <tr><th>Method</th><th>Total Delay</th><th>Overhead</th><th>Runtime (s)</th></tr>
-    <tr><td>IDEAL</td><td>2,457</td><td>—</td><td>0.02</td></tr>
-    <tr><td>SP</td><td>2,607</td><td>+6.1%</td><td>0.26</td></tr>
-    <tr><td>TAP</td><td>2,698</td><td>+9.8%</td><td>6.51</td></tr>
-    <tr><td>PIBT</td><td>2,522</td><td>+2.6%</td><td>0.76</td></tr>
-    <tr><td>G-PIBT</td><td>2,633</td><td>+7.2%</td><td>49.82</td></tr>
-    <tr><td><strong>GLC</strong></td><td><strong>2,600</strong></td><td><strong>+5.8%</strong></td><td><strong>0.69</strong></td></tr>
-  </table>
-
-  <p style="font-family:sans-serif;font-size:0.88rem;margin-bottom:6px;"><em>1,000 agents</em> (IDEAL, SP, PIBT, GLC)</p>
-  <table>
-    <tr><th>Method</th><th>Total Delay</th><th>Overhead</th><th>Runtime (s)</th></tr>
-    <tr><td>IDEAL</td><td>23,850</td><td>—</td><td>0.19</td></tr>
-    <tr><td>SP</td><td>33,250</td><td>+39.4%</td><td>4.55</td></tr>
-    <tr><td>PIBT</td><td>30,573</td><td>+28.2%</td><td>11.42</td></tr>
-    <tr><td><strong>GLC</strong></td><td><strong>32,062</strong></td><td><strong>+34.4%</strong></td><td><strong>11.08</strong></td></tr>
-  </table>
-
-  <p style="font-family:sans-serif;font-size:0.88rem;margin-bottom:6px;"><em>10,000 agents</em> (IDEAL, SP, PIBT, GLC)</p>
-  <table>
-    <tr><th>Method</th><th>Total Delay</th><th>Overhead</th><th>Runtime (s)</th></tr>
-    <tr><td>IDEAL</td><td>243,125</td><td>—</td><td>2.12</td></tr>
-    <tr><td>SP</td><td>2,203,068</td><td>+806.1%</td><td>618.78</td></tr>
-    <tr><td>PIBT</td><td>1,075,988</td><td>+342.6%</td><td>741.36</td></tr>
-    <tr><td><strong>GLC</strong></td><td><strong>1,017,513</strong></td><td><strong>+318.5%</strong></td><td><strong>630.91</strong></td></tr>
+    <tr><th>Method</th><th>Total Delay</th><th>Overhead</th><th>Completion</th><th>Runtime (s)</th></tr>
+    <tr><td>IDEAL</td><td>243,125</td><td>—</td><td>100%</td><td>2.12</td></tr>
+    <tr><td>SP</td><td>2,203,068</td><td>+806.1%</td><td>100%</td><td>618.78</td></tr>
+    <tr><td>PIBT</td><td>1,075,988</td><td>+342.6%</td><td>100%</td><td>741.36</td></tr>
+    <tr><td><strong>GLC</strong></td><td><strong>1,017,513</strong></td><td><strong>+318.5%</strong></td><td><strong>100%</strong></td><td><strong>630.91</strong></td></tr>
   </table>
 
   <hr />
