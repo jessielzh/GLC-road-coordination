@@ -59,7 +59,7 @@ python visualize_2in1out.py --agents 24 --left-ratio 0.5 --right-ratio 0
 
 Demo screenshot
 
-![Screenshot-demo](img/Screenshot-demo.png)
+![Screenshot-demo](docs/media/Screenshot-demo.png)
 
 Demo (methods: `sp`, `pibt`, `circular`; press 1/2/3 to switch):
 
