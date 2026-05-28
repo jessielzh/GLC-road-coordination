@@ -174,7 +174,9 @@ def main():
                 results[m] = {"total_delay": out["total_delay"], "completion_rate": out["completion_rate"], "time": time.perf_counter() - t0}
                 print(f"      {label} done: delay={results[m]['total_delay']:,}, completion={results[m]['completion_rate']*100:.1f}%, {results[m]['time']:.1f}s", flush=True)
             elif m == "gpibt":
-                out = run_guided_pibt_graph(road, origins, destinations, max_steps=args.max_steps)
+                out = run_guided_pibt_graph(road, origins, destinations, max_steps=args.max_steps,
+                    progress_callback=make_progress_printer("G-PIBT", csv_writer, t0),
+                    progress_interval=args.progress_interval)
                 results[m] = {"total_delay": out["total_delay"], "completion_rate": out["completion_rate"], "time": time.perf_counter() - t0}
                 print(f"      {label} done: delay={results[m]['total_delay']:,}, completion={results[m]['completion_rate']*100:.1f}%, {results[m]['time']:.1f}s", flush=True)
             elif m == "glc":

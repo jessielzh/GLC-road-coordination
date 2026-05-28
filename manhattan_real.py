@@ -1012,7 +1012,8 @@ def run_sp_pibt_graph(
     return {"total_delay": sum(times), "completion_rate": completed / n if n else 0, "completed": completed, "n": n, "failed": len(failed)}
 
 
-def run_guided_pibt_graph(road: OSMGraphRoad, origins: List[int], destinations: List[int], max_steps: int = 50000) -> dict:
+def run_guided_pibt_graph(road: OSMGraphRoad, origins: List[int], destinations: List[int], max_steps: int = 50000,
+                          progress_callback=None, progress_interval: int = 1) -> dict:
     """G-PIBT: Guided PIBT with congestion-aware paths."""
     n = len(origins)
     positions = list(origins)
@@ -1033,6 +1034,8 @@ def run_guided_pibt_graph(road: OSMGraphRoad, origins: List[int], destinations: 
             if positions[i] == goals[i]:
                 reached[i] = True
             times[i] += 1
+        if progress_callback and (step + 1) % progress_interval == 0:
+            progress_callback(step + 1, max_steps, sum(reached), n, sum(times))
 
     for i in range(n):
         if not reached[i]:

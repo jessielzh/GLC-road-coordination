@@ -167,9 +167,8 @@ def load_taxi_od_manhattan(
         }
         df = df[df["PULocationID"].isin(manhattan_ids) & df["DOLocationID"].isin(manhattan_ids)]
 
-    rng = np.random.default_rng(seed)
     if len(df) > n_trips:
-        df = df.sample(n=n_trips, random_state=rng)
+        df = df.iloc[:n_trips]
     return df["PULocationID"].tolist(), df["DOLocationID"].tolist()
 
 

@@ -94,15 +94,19 @@ def plot_with_completion_markers(ax, df_ext, methods, ycol, ylabel, completion_s
 
 
 def main():
-    ap = argparse.ArgumentParser(description="Plot Manhattan progress: GLC, PIBT, SP from separate CSVs")
-    ap.add_argument("--csv-glc", default=DEFAULT_CSV_GLC, help="CSV for GLC curve (SP-PIBT 10k)")
-    ap.add_argument("--csv-pibt", default=DEFAULT_CSV_PIBT, help="CSV for PIBT curve (Paper-PIBT 10k)")
-    ap.add_argument("--csv-sp", default=DEFAULT_CSV_SP, help="CSV for SP curve (10k agents)")
+    ap = argparse.ArgumentParser(description="Plot Manhattan progress: accumulated delay and runtime vs step")
+    ap.add_argument("csv", nargs="?", default=None, help="Combined progress CSV (method column) from run_manhattan_large_scale.py")
+    ap.add_argument("--csv-glc", default=DEFAULT_CSV_GLC, help="CSV for GLC curve (legacy separate-file mode)")
+    ap.add_argument("--csv-pibt", default=DEFAULT_CSV_PIBT, help="CSV for PIBT curve (legacy separate-file mode)")
+    ap.add_argument("--csv-sp", default=DEFAULT_CSV_SP, help="CSV for SP curve (legacy separate-file mode)")
     ap.add_argument("--out-delay", default="manhattan_accumulated_delay.png", help="Output figure for accumulated delay")
     ap.add_argument("--out-runtime", default="manhattan_runtime.png", help="Output figure for runtime")
     args = ap.parse_args()
 
-    df = load_three_curves(args.csv_glc, args.csv_pibt, args.csv_sp)
+    if args.csv and os.path.isfile(args.csv):
+        df = pd.read_csv(args.csv)
+    else:
+        df = load_three_curves(args.csv_glc, args.csv_pibt, args.csv_sp)
     methods = [m for m in ["SP", "PIBT", "GLC"] if m in df["method"].values]
     df_ext, completion_steps = extend_to_max_step(df, methods)
 

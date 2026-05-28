@@ -1258,26 +1258,19 @@ class SPGuidedPIBT:
         """Get the next cell on the guide path for this agent."""
         if agent_id not in self.guide_paths:
             return None
-        
+
         path = self.guide_paths[agent_id]
         current = (int(current_pos[0]), int(current_pos[1]))
-        
-        # Find where we are on the path
         idx = self.path_index.get(agent_id, 0)
-        
-        # If we're at or past this index, find our actual position
-        while idx < len(path) and path[idx] != current:
-            idx += 1
-        
-        # Update index
-        if idx < len(path):
-            self.path_index[agent_id] = idx
-        
-        # Return next cell if available
-        if idx + 1 < len(path):
-            return path[idx + 1]
-        return None
-    
+        search = idx
+        while search < len(path) and path[search] != current:
+            search += 1
+        if search < len(path):
+            self.path_index[agent_id] = search
+            return path[search + 1] if search + 1 < len(path) else None
+        # Displaced off remaining path: guide back to path[idx] to rejoin
+        return path[idx] if idx < len(path) else None
+
     def score_move(self, agent_id, pos, cand, goal):
         """
         Score a candidate move using guide path.
@@ -1290,26 +1283,23 @@ class SPGuidedPIBT:
         cand_cell = (int(cand[0]), int(cand[1]))
         pos_cell = (int(pos[0]), int(pos[1]))
         
-        # Staying in place has small penalty
-        if cand_cell == pos_cell:
-            return 50  # Prefer moving over staying
-        
         # Check if this is the next cell on guide path
         next_on_path = self.get_next_on_path(agent_id, pos)
         if next_on_path and cand_cell == next_on_path:
             return 0  # Best score - exactly on path
-        
+
         # Check if this cell is anywhere on the remaining path
         if agent_id in self.guide_paths:
             path = self.guide_paths[agent_id]
             idx = self.path_index.get(agent_id, 0)
-            
+
             for i, cell in enumerate(path[idx:]):
                 if cell == cand_cell:
                     return 1 + i  # On path, but not next
-        
-        # Not on path - use euclidean distance as fallback
-        return 100 + self.distance(cand, goal)
+
+        if cand_cell == pos_cell:
+            return 10000  # staying is absolute last resort
+        return 200 + self.distance(cand, goal)
     
     def plan_step(self, positions, goals, oscillating_agents=None, history=None, rng_seed=None):
         """
@@ -1535,41 +1525,38 @@ class GuidedPIBTCongestion:
         """Get the next cell on the guide path for this agent."""
         if agent_id not in self.guide_paths:
             return None
-        
+
         path = self.guide_paths[agent_id]
         current = (int(current_pos[0]), int(current_pos[1]))
-        
         idx = self.path_index.get(agent_id, 0)
-        while idx < len(path) and path[idx] != current:
-            idx += 1
-        
-        if idx < len(path):
-            self.path_index[agent_id] = idx
-        
-        if idx + 1 < len(path):
-            return path[idx + 1]
-        return None
-    
+        search = idx
+        while search < len(path) and path[search] != current:
+            search += 1
+        if search < len(path):
+            self.path_index[agent_id] = search
+            return path[search + 1] if search + 1 < len(path) else None
+        # Displaced off remaining path: guide back to path[idx] to rejoin
+        return path[idx] if idx < len(path) else None
+
     def score_move(self, agent_id, pos, cand, goal):
         """Score a candidate move using guide path (same as SP-PIBT)."""
         cand_cell = (int(cand[0]), int(cand[1]))
         pos_cell = (int(pos[0]), int(pos[1]))
-        
-        if cand_cell == pos_cell:
-            return 50
-        
+
         next_on_path = self.get_next_on_path(agent_id, pos)
         if next_on_path and cand_cell == next_on_path:
             return 0
-        
+
         if agent_id in self.guide_paths:
             path = self.guide_paths[agent_id]
             idx = self.path_index.get(agent_id, 0)
             for i, cell in enumerate(path[idx:]):
                 if cell == cand_cell:
                     return 1 + i
-        
-        return 100 + self.distance(cand, goal)
+
+        if cand_cell == pos_cell:
+            return 10000  # staying is absolute last resort
+        return 200 + self.distance(cand, goal)
     
     def plan_step(self, positions, goals, oscillating_agents=None, history=None, rng_seed=None):
         """Plan one step for all agents using Guided PIBT.

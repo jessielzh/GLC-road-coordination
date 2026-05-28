@@ -519,3 +519,203 @@ class RoadNetwork:
                 return [(float(a), float(b)) for a, b in nb]
 
         return PIBTRoadPlanner(self.grid_size, collision_radius)
+
+
+# ---------------------------------------------------------------------------
+# 2-in-1-out intersection: 2 inbound lanes + 1 outbound lane per arm
+# ---------------------------------------------------------------------------
+
+
+class RoadNetwork2In1Out:
+    """
+    4-way intersection with 2 inbound lanes and 1 outbound lane per arm.
+
+    This lane asymmetry creates a bottleneck: two incoming traffic streams
+    must merge into a single outbound lane. Used to study how left-turn ratios
+    affect intersection throughput.
+
+    Lane layout per arm (3 lanes total):
+      North arm (y < lo):  inbound-left=(center-1,y), inbound-right=(center,y), outbound=(center+1,y)
+      South arm (y > hi):  inbound-left=(center+2,y), inbound-right=(center+1,y), outbound=(center,y)
+      East arm  (x > hi):  inbound-left=(x,center-1), inbound-right=(x,center),   outbound=(x,center+1)
+      West arm  (x < lo):  inbound-left=(x,center+2), inbound-right=(x,center+1), outbound=(x,center)
+
+    Turn directions (right-hand driving):
+      left   = (entry_arm + 1) % 4
+      straight = (entry_arm + 2) % 4
+    """
+
+    def __init__(self, grid_size: int = 64, intersection_half: int = 5):
+        self.grid_size = grid_size
+        self.center = grid_size // 2
+        self.half = intersection_half
+        self.lo = self.center - self.half
+        self.hi = self.center + self.half
+
+        # North arm: y < lo
+        self._inbound_north_left  = [(self.center - 1, y) for y in range(0, self.lo)]
+        self._inbound_north_right = [(self.center,     y) for y in range(0, self.lo)]
+        self._outbound_north      = [(self.center + 1, y) for y in range(0, self.lo)]
+
+        # South arm: y > hi
+        self._inbound_south_left  = [(self.center + 2, y) for y in range(self.hi + 1, grid_size)]
+        self._inbound_south_right = [(self.center + 1, y) for y in range(self.hi + 1, grid_size)]
+        self._outbound_south      = [(self.center,     y) for y in range(self.hi + 1, grid_size)]
+
+        # East arm: x > hi
+        self._inbound_east_left   = [(x, self.center - 1) for x in range(self.hi + 1, grid_size)]
+        self._inbound_east_right  = [(x, self.center)     for x in range(self.hi + 1, grid_size)]
+        self._outbound_east       = [(x, self.center + 1) for x in range(self.hi + 1, grid_size)]
+
+        # West arm: x < lo
+        self._inbound_west_left   = [(x, self.center + 2) for x in range(0, self.lo)]
+        self._inbound_west_right  = [(x, self.center + 1) for x in range(0, self.lo)]
+        self._outbound_west       = [(x, self.center)     for x in range(0, self.lo)]
+
+    def is_on_road(self, x: int, y: int) -> bool:
+        if self.lo <= x <= self.hi and self.lo <= y <= self.hi:
+            return True
+        if 0 <= y < self.lo and x in (self.center - 1, self.center, self.center + 1):
+            return True
+        if self.hi < y < self.grid_size and x in (self.center, self.center + 1, self.center + 2):
+            return True
+        if self.hi < x < self.grid_size and y in (self.center - 1, self.center, self.center + 1):
+            return True
+        if 0 <= x < self.lo and y in (self.center, self.center + 1, self.center + 2):
+            return True
+        return False
+
+    def in_intersection(self, x: int, y: int) -> bool:
+        return self.lo <= x <= self.hi and self.lo <= y <= self.hi
+
+    def is_inbound_lane(self, x: int, y: int) -> bool:
+        if self.in_intersection(x, y):
+            return False
+        if 0 <= y < self.lo and x in (self.center - 1, self.center):
+            return True
+        if self.hi < y < self.grid_size and x in (self.center + 1, self.center + 2):
+            return True
+        if self.hi < x < self.grid_size and y in (self.center - 1, self.center):
+            return True
+        if 0 <= x < self.lo and y in (self.center + 1, self.center + 2):
+            return True
+        return False
+
+    def is_outbound_lane(self, x: int, y: int) -> bool:
+        if self.in_intersection(x, y):
+            return False
+        if 0 <= y < self.lo and x == self.center + 1:
+            return True
+        if self.hi < y < self.grid_size and x == self.center:
+            return True
+        if self.hi < x < self.grid_size and y == self.center + 1:
+            return True
+        if 0 <= x < self.lo and y == self.center:
+            return True
+        return False
+
+    def get_lane_type(self, x: int, y: int) -> str:
+        """Lane type string for visualization coloring."""
+        if self.in_intersection(x, y):
+            return 'intersection'
+        if 0 <= y < self.lo:
+            if x == self.center - 1:  return 'inbound_left'
+            if x == self.center:      return 'inbound_right'
+            if x == self.center + 1:  return 'outbound'
+        if self.hi < y < self.grid_size:
+            if x == self.center + 2:  return 'inbound_left'
+            if x == self.center + 1:  return 'inbound_right'
+            if x == self.center:      return 'outbound'
+        if self.hi < x < self.grid_size:
+            if y == self.center - 1:  return 'inbound_left'
+            if y == self.center:      return 'inbound_right'
+            if y == self.center + 1:  return 'outbound'
+        if 0 <= x < self.lo:
+            if y == self.center + 2:  return 'inbound_left'
+            if y == self.center + 1:  return 'inbound_right'
+            if y == self.center:      return 'outbound'
+        return 'road'
+
+    def get_road_neighbors(self, x: int, y: int) -> List[Cell]:
+        candidates = [(x, y), (x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)]
+        return [c for c in candidates if self.is_on_road(c[0], c[1])]
+
+    def get_valid_moves(self, px: int, py: int, reserved: Set[Cell] = None) -> List[Cell]:
+        """Valid moves respecting lane discipline (right-hand driving)."""
+        if reserved is None:
+            reserved = set()
+        in_int     = self.in_intersection(px, py)
+        on_inbound = self.is_inbound_lane(px, py)
+        on_outbound = self.is_outbound_lane(px, py)
+        valid = []
+        for c in self.get_road_neighbors(px, py):
+            if c in reserved:
+                continue
+            cx, cy = c
+            c_in_int   = self.in_intersection(cx, cy)
+            c_inbound  = self.is_inbound_lane(cx, cy)
+            c_outbound = self.is_outbound_lane(cx, cy)
+            if in_int:
+                if c_in_int or c_outbound:
+                    valid.append(c)
+            elif on_inbound:
+                if c_inbound or c_in_int:
+                    valid.append(c)
+            elif on_outbound:
+                if c_outbound:
+                    valid.append(c)
+        return valid
+
+    def distance(self, a: Cell, b: Cell) -> float:
+        return np.sqrt((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2)
+
+    def get_spawn_cells_inbound(self, arm: int, num_cells: int = 6) -> List[Cell]:
+        half = num_cells // 2
+        if arm == 0:
+            cells = self._inbound_north_left[:half] + self._inbound_north_right[:half]
+        elif arm == 1:
+            cells = self._inbound_east_left[-half:] + self._inbound_east_right[-half:]
+        elif arm == 2:
+            cells = self._inbound_south_left[-half:] + self._inbound_south_right[-half:]
+        else:
+            cells = self._inbound_west_left[:half] + self._inbound_west_right[:half]
+        return cells if cells else [(self.center, self.center)]
+
+    def get_dest_cells_outbound(self, arm: int, num_cells: int = 4) -> List[Cell]:
+        if arm == 0:
+            return self._outbound_north[:num_cells]
+        elif arm == 1:
+            return self._outbound_east[-num_cells:]
+        elif arm == 2:
+            return self._outbound_south[-num_cells:]
+        else:
+            return self._outbound_west[:num_cells]
+
+    def shortest_path(self, start: Cell, goal: Cell) -> Tuple[Optional[List[Cell]], Optional[Cell]]:
+        """BFS shortest path respecting lane discipline via get_valid_moves.
+        Returns (path, next_move) or (None, None) if unreachable.
+        """
+        from collections import deque
+        start = (int(start[0]), int(start[1]))
+        goal  = (int(goal[0]),  int(goal[1]))
+        if start == goal:
+            return [start], None
+        if not self.is_on_road(start[0], start[1]) or not self.is_on_road(goal[0], goal[1]):
+            return None, None
+        queue   = deque([(start, [start])])
+        visited = {start}
+        while queue:
+            current, path = queue.popleft()
+            for nc in self.get_valid_moves(current[0], current[1]):
+                nc = (int(nc[0]), int(nc[1]))
+                if nc == current or nc in visited:
+                    continue
+                new_path = path + [nc]
+                if abs(nc[0] - goal[0]) <= 1 and abs(nc[1] - goal[1]) <= 1:
+                    return new_path, new_path[1] if len(new_path) > 1 else None
+                visited.add(nc)
+                queue.append((nc, new_path))
+        return None, None
+
+    def get_intersection_bounds(self) -> Tuple[int, int, int, int]:
+        return (self.lo, self.lo, self.hi, self.hi)
