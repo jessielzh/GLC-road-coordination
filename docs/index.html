@@ -186,7 +186,7 @@
 
   <h2>Demo Video</h2>
   <div class="video-wrap">
-    <video controls loop muted playsinline>
+    <video controls loop muted playsinline autoplay>
       <source src="media/emergent-pattern.mov?v=2" type="video/mp4" />
       Your browser does not support the video tag.
     </video>
@@ -220,8 +220,12 @@
 
   <hr />
 
-  <h2>City-scale Manhattan — 10,000 Agents</h2>
-  <p class="table-note">Total delay and runtime on the Manhattan road network (10,000 agents, IDEAL / SP / PIBT / GLC). Runtimes vary by machine; overhead percentages are machine-independent.</p>
+  <h2>City-scale Manhattan Experiment with 10K Agents</h2>
+  <p>Road network: Manhattan directed graph — <strong>4,594 nodes</strong>, <strong>9,856 edges</strong>.</p>
+  <div style="text-align:center;margin-bottom:1.2em;">
+    <img src="media/manhattan_map_od.png" alt="Manhattan road network with OD pairs" style="max-width:60%;border-radius:6px;border:1px solid #ddd;" />
+  </div>
+  <p class="table-note">Total delay and runtime (IDEAL / SP / PIBT / GLC). Runtimes vary by machine; overhead percentages are machine-independent.</p>
   <table>
     <tr><th>Method</th><th>Total Delay</th><th>Overhead</th><th>Completion</th><th>Runtime (s)</th></tr>
     <tr><td>IDEAL</td><td>243,125</td><td>—</td><td>100%</td><td>2.12</td></tr>

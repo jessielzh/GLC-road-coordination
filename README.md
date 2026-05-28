@@ -12,7 +12,7 @@ This repository contains the source code for the paper:
 
 | (a) Inbound approach | (b) At the intersection | (c) Outbound after turning |
 |:---:|:---:|:---:|
-| ![inbound](media/fourway_inbound.png) | ![at intersection](media/fourway_at_intersection.png) | ![outbound](media/fourway_outbound.png) |
+| <img src="docs/media/fourway_inbound.png" width="200"> | <img src="docs/media/fourway_at_intersection.png" width="200"> | <img src="docs/media/fourway_outbound.png" width="200"> |
 
 Illustrative snapshots of emergent circulation under PIBT-style conflict resolution. Red agents are left-turn vehicles. Rather than executing direct left turns that repeatedly cross opposing flows, left-turn agents implicitly "merge" into a one-way ring inside the intersection and exit when aligned with their desired outbound lane, resembling a roundabout.
 
@@ -57,9 +57,13 @@ python compare_2in1out.py --agents 24 --left-ratio 0.3 --right-ratio 0.35 --seed
 python visualize_2in1out.py --agents 24 --left-ratio 0.5 --right-ratio 0
 ```
 
+Demo screenshot
+
+![Screenshot-demo](img/Screenshot-demo.png)
+
 Demo (methods: `sp`, `pibt`, `circular`; press 1/2/3 to switch):
 
-<video src="media/emergent-pattern.mov" controls width="100%"></video>
+<video src="docs/media/emergent-pattern.mov" controls width="100%"></video>
 
 
 
@@ -69,7 +73,7 @@ Demo (methods: `sp`, `pibt`, `circular`; press 1/2/3 to switch):
 python plot_4way_circular_vs_pibt.py
 ```
 
-<img src="media/4way_circular_vs_pibt_overhead.png" alt="Figure 2: Overhead over IDEAL vs left-turn ratio" style="zoom:50%;" />
+<img src="docs/media/4way_circular_vs_pibt_overhead.png" alt="Figure 2: Overhead over IDEAL vs left-turn ratio" style="zoom:50%;" />
 
 
 
@@ -97,6 +101,8 @@ python -c "from experiments_summary import run_3x3_limited; run_3x3_limited(seed
 #### Table 3 — Total delay and runtime, Manhattan road network
 
 `sample_od_10k.parquet` contains 10,000 OD trips sampled from the NYC TLC January 2024 dataset (seed=42, Manhattan zones only). The commands use the first N rows for N agents, so results are fully reproducible. For full-scale reproduction, download `yellow_tripdata_2024-01.parquet` from [NYC TLC Trip Record Data](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page) and pass its path instead.
+
+**Road network:** Manhattan directed graph — **4,594 nodes**, **9,856 edges** (cached in `.manhattan_cache/manhattan_graph.graphml`).
 
 > **Note:** Runtimes vary by machine. Delay overhead percentages are machine-independent and should match the paper's values closely.
 
