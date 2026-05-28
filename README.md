@@ -12,7 +12,7 @@ This repository contains the source code for the paper:
 
 | (a) Inbound approach | (b) At the intersection | (c) Outbound after turning |
 |:---:|:---:|:---:|
-| <img src="docs/media/fourway_inbound.png" width="200"> | <img src="docs/media/fourway_at_intersection.png" width="200"> | <img src="docs/media/fourway_outbound.png" width="200"> |
+| ![inbound](docs/media/fourway_inbound.png) | ![at intersection](docs/media/fourway_at_intersection.png) | ![outbound](docs/media/fourway_outbound.png) |
 
 Illustrative snapshots of emergent circulation under PIBT-style conflict resolution. Red agents are left-turn vehicles. Rather than executing direct left turns that repeatedly cross opposing flows, left-turn agents implicitly "merge" into a one-way ring inside the intersection and exit when aligned with their desired outbound lane, resembling a roundabout.
 
