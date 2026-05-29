@@ -146,6 +146,22 @@ python run_manhattan_large_scale.py data/sample_od_10k.parquet --agents 10000 --
 | PIBT    | 1,075,988     | +342.6%   | 100%       | 741.36      |
 | GLC     | 1,017,513     | +318.5%   | 100%       | 630.91      |
 
+#### Figure 5 — Accumulated delay and runtime vs. step (10,000 agents)
+
+After running the 10,000-agent experiment above, plot the accumulated delay and runtime curves from the per-step progress CSV:
+
+```bash
+python plot_manhattan_progress.py output/manhattan_10000_progress.csv \
+  --out-delay output/manhattan_10000_accumulated_delay.png \
+  --out-runtime output/manhattan_10000_runtime.png
+```
+
+Each curve is extended flat to the global maximum step (the plateau marks where that method's simulation finished), with a ★ at each method's completion step. Colors: SP (blue), PIBT (green), GLC (red).
+
+| Accumulated delay | Runtime |
+|:---:|:---:|
+| ![accumulated delay](docs/media/manhattan_10000_accumulated_delay.png) | ![runtime](docs/media/manhattan_10000_runtime.png) |
+
 
 
 ## License
