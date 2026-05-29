@@ -6,6 +6,7 @@ decreases (hard-coded roundabout wastes time when through traffic dominates);
 PIBT stays consistently good (only left-turn vehicles use roundabout).
 """
 
+import os
 import numpy as np
 import matplotlib
 matplotlib.use("Agg")
@@ -78,7 +79,8 @@ def main():
     ax.set_ylim(0, None)
 
     plt.tight_layout()
-    out_path = "4way_circular_vs_pibt_overhead.png"
+    out_path = os.path.join("output", "4way_circular_vs_pibt_overhead.png")
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
     plt.savefig(out_path, dpi=150, bbox_inches="tight")
     print(f"Saved {out_path}")
 

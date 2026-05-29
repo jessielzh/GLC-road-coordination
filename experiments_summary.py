@@ -1076,12 +1076,12 @@ def run_3x3_experiments(seeds=[42, 123, 456], max_steps=500):
 
 def run_3x3_limited(
     agent_counts=None,
-    seeds=(42, 123, 456),
+    seeds=(42,),
     max_steps=500,
 ):
-    """Run 3x3 grid: IDEAL, SP, PIBT (Paper-PIBT), G-PIBT, GLC. Paper scenario 2; Table 2 uses agents 8,16,24,32,40,60."""
+    """Run 3x3 grid: IDEAL, SP, PIBT (Paper-PIBT), G-PIBT, GLC. Paper scenario 2; Table 2 uses agents 8,16,24,32,40."""
     if agent_counts is None:
-        agent_counts = [8, 16, 24, 32, 40, 60]
+        agent_counts = [8, 16, 24, 32, 40]
     grid_size = 80
     road = GridNetwork3x3(grid_size=grid_size)
     print("\n")

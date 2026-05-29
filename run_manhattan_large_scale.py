@@ -122,6 +122,9 @@ def main():
     csv_file = None
     csv_writer = None
     if args.output_csv:
+        out_dir = os.path.dirname(args.output_csv)
+        if out_dir:
+            os.makedirs(out_dir, exist_ok=True)
         csv_file = open(args.output_csv, "w", newline="")
         csv_writer = csv.writer(csv_file)
         csv_writer.writerow(["method", "step", "completed", "accumulated_delay", "runtime_s", "runtime_segment_s", "runtime_per_step_s"])

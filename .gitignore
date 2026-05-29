@@ -6,5 +6,6 @@ __pycache__/
 delay_*.png
 runtime_*.png
 4way_circular_vs_pibt_overhead.png
+output/
 main.pdf
 paper/

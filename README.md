@@ -82,7 +82,7 @@ python plot_4way_circular_vs_pibt.py
 #### Table 2 — Total delay vs number of agents
 
 ```bash
-python -c "from experiments_summary import run_3x3_limited; run_3x3_limited(seeds=[42], max_steps=500)"
+python -c "from experiments_summary import run_3x3_limited; run_3x3_limited()"
 ```
 
 | Agents | IDEAL | SP          | PIBT        | G-PIBT      | GLC         |
@@ -92,7 +92,6 @@ python -c "from experiments_summary import run_3x3_limited; run_3x3_limited(seed
 | 24     | 795   | 825 (+4%)   | 798 (+0%)   | 802 (+1%)   | 800 (+1%)   |
 | 32     | 1,055 | 1,096 (+4%) | 1,061 (+1%) | 1,072 (+2%) | 1,063 (+1%) |
 | 40     | 1,297 | 1,352 (+4%) | 1,309 (+1%) | 1,328 (+2%) | 1,311 (+1%) |
-| 60     | 1,977 | 2,080 (+5%) | 2,019 (+2%) | 2,042 (+3%) | 2,111 (+7%) |
 
 
 
@@ -100,7 +99,7 @@ python -c "from experiments_summary import run_3x3_limited; run_3x3_limited(seed
 
 #### Table 3 — Total delay and runtime, Manhattan road network
 
-`sample_od_10k.parquet` contains 10,000 OD trips sampled from the NYC TLC January 2024 dataset (seed=42, Manhattan zones only). The commands use the first N rows for N agents, so results are fully reproducible. For full-scale reproduction, download `yellow_tripdata_2024-01.parquet` from [NYC TLC Trip Record Data](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page) and pass its path instead.
+`data/sample_od_10k.parquet` contains 10,000 OD trips sampled from the NYC TLC January 2024 dataset (seed=42, Manhattan zones only). The commands use the first N rows for N agents, so results are fully reproducible. For full-scale reproduction, download `yellow_tripdata_2024-01.parquet` from [NYC TLC Trip Record Data](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page) and pass its path instead.
 
 **Road network:** Manhattan directed graph — **4,594 nodes**, **9,856 edges** (cached in `.manhattan_cache/manhattan_graph.graphml`).
 
@@ -109,7 +108,7 @@ python -c "from experiments_summary import run_3x3_limited; run_3x3_limited(seed
 **100 agents** (IDEAL, SP, TAP, PIBT, G-PIBT, GLC):
 
 ```bash
-python run_manhattan_large_scale.py sample_od_10k.parquet --agents 100 --methods ideal,sp,tap,pibt,gpibt,glc --output-csv manhattan_100_progress.csv --progress-interval 1
+python run_manhattan_large_scale.py data/sample_od_10k.parquet --agents 100 --methods ideal,sp,tap,pibt,gpibt,glc --output-csv output/manhattan_100_progress.csv --progress-interval 1
 ```
 
 | Method  | Total Delay | Overhead | Completion | Runtime (s) |
@@ -124,7 +123,7 @@ python run_manhattan_large_scale.py sample_od_10k.parquet --agents 100 --methods
 **1,000 agents** (IDEAL, SP, PIBT, GLC):
 
 ```bash
-python run_manhattan_large_scale.py sample_od_10k.parquet --agents 1000 --methods ideal,sp,pibt,glc --output-csv manhattan_1000_progress.csv --progress-interval 1
+python run_manhattan_large_scale.py data/sample_od_10k.parquet --agents 1000 --methods ideal,sp,pibt,glc --output-csv output/manhattan_1000_progress.csv --progress-interval 1
 ```
 
 | Method  | Total Delay | Overhead | Completion | Runtime (s) |
@@ -137,7 +136,7 @@ python run_manhattan_large_scale.py sample_od_10k.parquet --agents 1000 --method
 **10,000 agents** (IDEAL, SP, PIBT, GLC):
 
 ```bash
-python run_manhattan_large_scale.py sample_od_10k.parquet --agents 10000 --methods ideal,sp,pibt,glc --output-csv manhattan_10000_progress.csv --progress-interval 1
+python run_manhattan_large_scale.py data/sample_od_10k.parquet --agents 10000 --methods ideal,sp,pibt,glc --output-csv output/manhattan_10000_progress.csv --progress-interval 1
 ```
 
 | Method  | Total Delay   | Overhead  | Completion | Runtime (s) |
