@@ -61,7 +61,7 @@ Demo screenshot
 
 ![Screenshot-demo](docs/media/Screenshot-demo.png)
 
-Demo (methods: `sp`, `pibt`, `circular`; press 1/2/3 to switch):
+Demo (cannot be viewed on GitHub repo page, go to [Project Page](https://jessielzh.github.io/GLC-road-coordination/) to see the video):
 
 <video src="docs/media/emergent-pattern.mov" controls width="100%"></video>
 
