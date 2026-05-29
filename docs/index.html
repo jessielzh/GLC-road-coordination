@@ -176,10 +176,9 @@
     global shortest-path guidance with priority-based local conflict resolution. GLC precomputes
     optimal distance labels for the entire network, then uses priority inheritance and backtracking
     to resolve real-time collisions without replanning. GLC scales to city-scale networks with 4K
-    nodes and 10K agents. As a key qualitative result, GLC produces <em>emergent circulation
-    patterns</em>: left-turn traffic spontaneously forms roundabout-like flows during high density
-    while straight-through traffic proceeds unimpeded—adaptive coordination arising purely from
-    local rules without explicit programming.
+    nodes and 10K agents. As a key qualitative result, GLC produces an <em>emergent roundabout</em>: left-turn traffic spontaneously forms a
+    one-way ring during high density while straight-through traffic proceeds unimpeded—adaptive
+    coordination arising purely from local rules without explicit programming.
   </p>
 
   <hr />
@@ -194,7 +193,7 @@
 
   <hr />
 
-  <h2>Emergent Circulation at a Four-Way Intersection</h2>
+  <h2>Emergent Roundabout</h2>
 
   <div class="fig-row">
     <figure>
@@ -211,11 +210,11 @@
     </figure>
   </div>
   <p class="fig-caption">
-    Illustrative snapshots of emergent circulation in the four-way intersection under
-    PIBT-style conflict resolution. Red agents are left-turn vehicles. Rather than executing
-    direct left turns that repeatedly cross opposing flows, left-turn agents implicitly
-    "merge" into a one-way ring inside the intersection and exit when aligned with their
-    desired outbound lane, resembling a roundabout.
+    Snapshots of an emergent roundabout arising from purely local conflict resolution. Red
+    agents are left-turn vehicles; blue agents travel straight through. Instead of cutting
+    directly across opposing traffic, the left-turn agents spontaneously form a one-way ring
+    inside the intersection — circulating until they reach their outbound lane — a roundabout
+    that no agent was programmed to create.
   </p>
 
   <hr />

@@ -8,13 +8,13 @@ This repository contains the source code for the paper:
 
 ---
 
-## Emergent Circulation at a Four-Way Intersection
+## Emergent Roundabout
 
 | (a) Inbound approach | (b) At the intersection | (c) Outbound after turning |
 |:---:|:---:|:---:|
 | ![inbound](docs/media/fourway_inbound.png) | ![at intersection](docs/media/fourway_at_intersection.png) | ![outbound](docs/media/fourway_outbound.png) |
 
-Illustrative snapshots of emergent circulation under PIBT-style conflict resolution. Red agents are left-turn vehicles. Rather than executing direct left turns that repeatedly cross opposing flows, left-turn agents implicitly "merge" into a one-way ring inside the intersection and exit when aligned with their desired outbound lane, resembling a roundabout.
+Snapshots of an emergent roundabout arising from purely local conflict resolution. Red agents are left-turn vehicles; blue agents travel straight through. Instead of cutting directly across opposing traffic, the left-turn agents spontaneously form a one-way ring inside the intersection — circulating until they reach their outbound lane — a roundabout that no agent was programmed to create.
 
 
 
@@ -51,7 +51,7 @@ python compare_2in1out.py --agents 24 --left-ratio 0.3 --right-ratio 0.35 --seed
 
 
 
-#### Figure 1 — Emergent circulation demo
+#### Figure 1 — Emergent Roundabout demo
 
 ```bash
 python visualize_2in1out.py --agents 24 --left-ratio 0.5 --right-ratio 0
