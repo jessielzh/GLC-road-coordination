@@ -67,14 +67,33 @@
       font-family: sans-serif;
     }
     p { margin-bottom: 1em; }
-    .video-wrap {
-      width: 100%;
+    .video-breakout {
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+      padding: 0 24px;
+      box-sizing: border-box;
       margin-bottom: 10px;
     }
-    .video-wrap video {
+    .video-row {
+      display: flex;
+      gap: 12px;
+    }
+    .video-row figure {
+      flex: 1 1 0;
+      text-align: center;
+      margin: 0;
+      min-width: 0;
+    }
+    .video-row video {
       width: 100%;
       border-radius: 6px;
       border: 1px solid #ddd;
+    }
+    .video-row figcaption {
+      font-size: 0.82rem;
+      color: #555;
+      margin-top: 5px;
+      font-family: sans-serif;
     }
     .fig-row {
       display: flex;
@@ -184,11 +203,30 @@
   <hr />
 
   <h2>Demo Video</h2>
-  <div class="video-wrap">
-    <video controls loop muted playsinline autoplay>
-      <source src="media/emergent-pattern.mov?v=2" type="video/mp4" />
-      Your browser does not support the video tag.
-    </video>
+  <div class="video-breakout">
+  <div class="video-row">
+    <figure>
+      <video controls loop muted playsinline autoplay>
+        <source src="media/emergent-pattern-1.mov" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <figcaption>Shortest Path: Total Time 1622</figcaption>
+    </figure>
+    <figure>
+      <video controls loop muted playsinline autoplay>
+        <source src="media/emergent-pattern-2.mov" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <figcaption>Circular: Total Time 1637</figcaption>
+    </figure>
+    <figure>
+      <video controls loop muted playsinline autoplay>
+        <source src="media/emergent-pattern-3.mov" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <figcaption>PIBT: Total Time 1494</figcaption>
+    </figure>
+  </div>
   </div>
 
   <hr />
